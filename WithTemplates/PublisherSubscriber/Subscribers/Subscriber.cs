@@ -5,7 +5,7 @@ using static System.Console;
 
 namespace WithTemplates.PublisherSubscriber.Subscribers
 {
-    public class Subscriber
+    public class Subscriber : IDisposable
     {
         private string _ip;
 
@@ -23,7 +23,10 @@ namespace WithTemplates.PublisherSubscriber.Subscribers
         public void ShowIp() =>
             WriteLine($"{_ip}");
 
-        public void Dispose() =>
+        public void Dispose()
+        {
             _publisher.StringAdded -= OnAddingString;
+            GC.SuppressFinalize(this);
+        }
     }
 }

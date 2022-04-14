@@ -20,8 +20,10 @@ namespace WithIntegratedDelegates.PublisherSubscriber.Subscribers
         public void ShowIp() =>
             WriteLine($"{_ip}");
 
-        public void Dispose() =>
+        public void Dispose()
+        {
             Publisher.StringAdded -= OnAddingString;
-        
+            GC.SuppressFinalize(this);
+        }
     }
 }

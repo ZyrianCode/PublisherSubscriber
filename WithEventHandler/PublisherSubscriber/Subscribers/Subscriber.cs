@@ -14,14 +14,16 @@ namespace WithEventHandler.PublisherSubscriber.Subscribers
             Publisher.StringAdded += OnAddingString;
         }
 
-        private void OnAddingString(object sender, CustomArg eventArgument) => 
+        private void OnAddingString(object sender, CustomArg eventArgument) =>
             _ip = eventArgument.Ip;
-        
+
         public void ShowIp() =>
             WriteLine($"{_ip}");
 
-        public void Dispose() =>
+        public void Dispose()
+        {
             Publisher.StringAdded -= OnAddingString;
-        
+            GC.SuppressFinalize(this);
+        }
     }
 }
